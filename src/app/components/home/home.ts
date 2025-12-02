@@ -13,7 +13,9 @@ export class Home {
   housingLocationList: HousingLocationInfo[] = [];
   housingService: HousingService = inject(HousingService);
 
-  // A função do construtor é criar e inicializar um novo objeto a partir da classe.
+  // O constructor é executado automaticamente quando o componente é criado.
+  // Ele é usado para inicializar valores iniciais da classe antes do template ser renderizado.
+  // Aqui, ao criar o componente, já carregamos a lista de localizações usando o serviço.
   constructor() {
     this.housingLocationList = this.housingService.getAllHousingLocations();
   }
