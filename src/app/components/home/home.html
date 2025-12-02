@@ -5,6 +5,9 @@
     <button class="primary" type="button">Search</button>
   </form>
   <section class="results">
+    @for (housingLocation of housingLocationList; track housingLocation.id) {
+
     <app-housing-location [housingLocation]="housingLocation" />
+    }
   </section>
 </section>
