@@ -3,19 +3,19 @@ import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../../services/housing.service';
 import { HousingLocationInfo } from '../../interfaces/housinglocation';
 import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map, Observable } from 'rxjs';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-details',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, AsyncPipe],
   templateUrl: './details.html',
   styleUrl: './details.css',
 })
-export class Details implements OnInit {
+export class Details {
   // ActivatedRoute dá acesso às informações da rota atual.
-  route: ActivatedRoute = inject(ActivatedRoute);
-  housingLocation: HousingLocationInfo | undefined;
-  readonly _housingService = inject(HousingService);
-  readonly _cdr = inject(ChangeDetectorRef);
+  private route: ActivatedRoute = inject(ActivatedRoute);
+  private readonly _housingService = inject(HousingService);
 
   applyForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -23,13 +23,10 @@ export class Details implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  ngOnInit() {
-    const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this._housingService.getHousingLocationById(housingLocationId).subscribe((response) => {
-      this.housingLocation = response;
-      this._cdr.markForCheck();
-    });
-  }
+  housingLocationId = Number(this.route.snapshot.params['id']);
+  housingLocation$: Observable<HousingLocationInfo> = this._housingService.getHousingLocationById(
+    this.housingLocationId
+  );
 
   submitApplication() {
     this._housingService.submitApplication(

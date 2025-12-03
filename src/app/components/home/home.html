@@ -6,7 +6,7 @@
     <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
   </form>
   <section class="results">
-    @for (housingLocation of filteredLocationList; track housingLocation.id) {
+    @for (housingLocation of filteredLocationList$ | async; track housingLocation.id) {
     <app-housing-location [housingLocation]="housingLocation" />
     }
   </section>

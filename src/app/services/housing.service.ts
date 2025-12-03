@@ -1,4 +1,4 @@
-import { inject, Injectable, OnInit } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HousingLocationInfo } from '../interfaces/housinglocation';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
