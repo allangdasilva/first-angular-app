@@ -1,16 +1,17 @@
 <main>
-  <a [routerLink]="['/']"></a>
-  <header class="brand-name">
-    <img
-      class="brand-logo"
-      ngSrc="/assets/logo.svg"
-      alt="Logo homes"
-      width="151"
-      height="44"
-      aria-hidden="true"
-      priority
-    />
-  </header>
+  <a [routerLink]="['/']">
+    <header class="brand-name">
+      <img
+        class="brand-logo"
+        ngSrc="/assets/logo.svg"
+        alt="Logo homes"
+        width="151"
+        height="44"
+        aria-hidden="true"
+        priority
+      />
+    </header>
+  </a>
   <section class="content">
     <router-outlet />
   </section>

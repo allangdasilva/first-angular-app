@@ -6,4 +6,6 @@
   />
   <h2 class="listing-heading">{{ housingLocation().name }}</h2>
   <p class="listing-location">{{ housingLocation().city }}, {{ housingLocation().state }}</p>
+  <!-- A diretiva routerLink permite que o roteador do Angular crie links dinâmicos na aplicação. O valor atribuído à routerLink é um array com duas entradas: a parte estática do caminho e os dados dinâmicos. -->
+  <a [routerLink]="['/details', housingLocation().id]">Learn More</a>
 </section>

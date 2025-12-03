@@ -9,7 +9,8 @@ export const routes: Routes = [
     title: 'Home Page',
   },
   {
-    path: 'details',
+    // :id é dinâmico e mudará com base em como a rota é solicitada pelo código.
+    path: 'details/:id',
     component: Details,
     title: 'Home Details',
   },
