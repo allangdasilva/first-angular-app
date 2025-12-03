@@ -12,4 +12,7 @@ export class HousingLocation {
   // Invoque o método required no input para indicar que o componente pai deve fornecer um valor.
   // required() garante que o TypeScript imponha isso e trate a propriedade como não nula quando este componente for usado em um modelo.
   housingLocation = input.required<HousingLocationInfo>();
+  ngOnInit() {
+    console.log('teste');
+  }
 }

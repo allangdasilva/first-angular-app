@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HousingService } from '../../services/housing.service';
 import { HousingLocationInfo } from '../../interfaces/housinglocation';
@@ -10,11 +10,12 @@ import { ReactiveFormsModule, FormControl, FormGroup, Validators } from '@angula
   templateUrl: './details.html',
   styleUrl: './details.css',
 })
-export class Details {
+export class Details implements OnInit {
   // ActivatedRoute dá acesso às informações da rota atual.
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService: HousingService = inject(HousingService);
   housingLocation: HousingLocationInfo | undefined;
+  readonly _housingService = inject(HousingService);
+  readonly _cdr = inject(ChangeDetectorRef);
 
   applyForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
@@ -22,14 +23,16 @@ export class Details {
     email: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  // constructor converte o id parâmetro obtido na rota de uma string para um número.
-  constructor() {
-    const housingLocationId = Number(this.route.snapshot.params['id']);
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+  ngOnInit() {
+    const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
+    this._housingService.getHousingLocationById(housingLocationId).subscribe((response) => {
+      this.housingLocation = response;
+      this._cdr.markForCheck();
+    });
   }
 
   submitApplication() {
-    this.housingService.submitApplication(
+    this._housingService.submitApplication(
       // O operador de coalescência nula (??) é um operador lógico que retorna o seu operando do lado direito quando o seu operador do lado esquerdo é null ou undefined.
       this.applyForm.value.firstName ?? '',
       this.applyForm.value.lastName ?? '',

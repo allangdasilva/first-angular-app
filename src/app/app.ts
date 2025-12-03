@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { Home } from './components/home/home';
 import { NgOptimizedImage } from '@angular/common';
 
 @Component({

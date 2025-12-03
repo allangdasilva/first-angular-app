@@ -1,4 +1,10 @@
-import { Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { HousingLocation } from '../housing-location/housing-location';
 import { HousingLocationInfo } from '../../interfaces/housinglocation';
 import { HousingService } from '../../services/housing.service';
@@ -8,18 +14,23 @@ import { HousingService } from '../../services/housing.service';
   imports: [HousingLocation],
   templateUrl: './home.html',
   styleUrl: './home.css',
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class Home {
+export class Home implements OnInit {
   housingLocationList: HousingLocationInfo[] = [];
-  housingService: HousingService = inject(HousingService);
   filteredLocationList: HousingLocationInfo[] = [];
+  readonly _housingService = inject(HousingService);
+  readonly _cdr = inject(ChangeDetectorRef);
 
-  // O constructor é executado automaticamente quando o componente é criado.
-  // Ele é usado para inicializar valores iniciais da classe antes do template ser renderizado.
-  // Aqui, ao criar o componente, já carregamos a lista de localizações usando o serviço.
-  constructor() {
-    this.housingLocationList = this.housingService.getAllHousingLocations();
-    this.filteredLocationList = this.housingLocationList;
+  ngOnInit() {
+    this.fetchData();
+  }
+  fetchData() {
+    this._housingService.getAllHousingLocations().subscribe((response) => {
+      this.housingLocationList = response;
+      this.filteredLocationList = response;
+      this._cdr.markForCheck();
+    });
   }
 
   filterResults(text: string) {
