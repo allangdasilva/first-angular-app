@@ -1,9 +1,10 @@
 <article>
+  <!-- crossorigin="anonymous": O navegador vai tentar carregar a imagem SEM enviar cookies ou credenciais, e vai aceitar a imagem se o servidor permitir CORS. -->
   <img
     class="listing-photo"
     [src]="housingLocation?.photo"
     alt="Exterior photo of {{ housingLocation?.name }}"
-    crossorigin
+    crossorigin="anonymous"
   />
   <section class="listing-description">
     <h2 class="listing-heading">{{ housingLocation?.name }}</h2>
@@ -16,5 +17,20 @@
       <li>Does this location have wifi: {{ housingLocation?.wifi }}</li>
       <li>Does this location have laundry: {{ housingLocation?.laundry }}</li>
     </ul>
+  </section>
+  <section class="listing-apply">
+    <h2 class="section-heading">Apply now to live here</h2>
+    <form [formGroup]="applyForm" (ngSubmit)="submitApplication()">
+      <label for="first-name">First Name</label>
+      <input type="text" id="first-name" formControlName="firstName" />
+
+      <label for="last-name">Last Name</label>
+      <input type="text" id="last-name" formControlName="lastName" />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" formControlName="email" />
+
+      <button type="submit" class="primary" [disabled]="!applyForm.valid">Apply now</button>
+    </form>
   </section>
 </article>
