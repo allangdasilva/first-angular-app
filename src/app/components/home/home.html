@@ -1,11 +1,12 @@
 <section>
   <form>
     <label class="sr-only" for="search-bar">Search</label>
-    <input type="text" id="search-bar" placeholder="Filter by city" />
-    <button class="primary" type="button">Search</button>
+    <!-- #nome é uma variável de template: Elas permitem interagir com esses elementos em outras partes do template, facilitando a comunicação entre diferentes partes da visualização sem a necessidade de código TypeScript complexo.  -->
+    <input type="text" id="search-bar" placeholder="Filter by city" #filter />
+    <button class="primary" type="button" (click)="filterResults(filter.value)">Search</button>
   </form>
   <section class="results">
-    @for (housingLocation of housingLocationList; track housingLocation.id) {
+    @for (housingLocation of filteredLocationList; track housingLocation.id) {
 
     <app-housing-location [housingLocation]="housingLocation" />
     }

@@ -12,11 +12,23 @@ import { HousingService } from '../../services/housing.service';
 export class Home {
   housingLocationList: HousingLocationInfo[] = [];
   housingService: HousingService = inject(HousingService);
+  filteredLocationList: HousingLocationInfo[] = [];
 
   // O constructor é executado automaticamente quando o componente é criado.
   // Ele é usado para inicializar valores iniciais da classe antes do template ser renderizado.
   // Aqui, ao criar o componente, já carregamos a lista de localizações usando o serviço.
   constructor() {
     this.housingLocationList = this.housingService.getAllHousingLocations();
+    this.filteredLocationList = this.housingLocationList;
+  }
+
+  filterResults(text: string) {
+    if (!text) {
+      this.filteredLocationList = this.housingLocationList;
+      return;
+    }
+    this.filteredLocationList = this.housingLocationList.filter((housingLocation) => {
+      return housingLocation.city.toLowerCase().includes(text.toLowerCase());
+    });
   }
 }
